@@ -8,8 +8,7 @@ const Button = (props) => {
 export default Button;
 
 const Btn = styled.button`
-  min-width: 10rem;
-  height: 4.5rem;
+  height: 4rem;
   background-color: transparent;
   font-weight: bold;
   position: relative;
@@ -18,6 +17,6 @@ const Btn = styled.button`
   color: white;
   cursor: pointer;
   &:hover {
-    border-bottom: 2px solid white;
+    color: red;
   }
 `;

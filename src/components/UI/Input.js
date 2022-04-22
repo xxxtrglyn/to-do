@@ -4,7 +4,14 @@ import styled from "styled-components";
 const Input = (props) => {
   return (
     <InputWrapper>
-      <Ip id={props.id} />
+      <Ip
+        id={props.id}
+        type={props.type}
+        value={props.vale}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
+        className={props.isValid === false ? "inValid" : ""}
+      />
       <Label htmlFor={props.id}>{props.label}</Label>
     </InputWrapper>
   );
@@ -40,5 +47,11 @@ const Ip = styled.input`
   }
   &:focus ~ ${Label} {
     color: #07e798;
+  }
+  &.inValid {
+    border-bottom: 2px solid red;
+  }
+  &.inValid ~ ${Label} {
+    color: red;
   }
 `;

@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import Button from "./Button";
 
-const NavBar = () => {
+const NavBar = (props) => {
   return (
     <Navbar>
       <h2>TODO-APP</h2>
       <RightSide>
-        <Button label="LOGIN" />
-        <Button label="SIGN UP" />
+        <Button label="LOGIN" onClick={props.onShowLogInForm} />
+        <Button label="SIGN UP" onClick={props.onShowSignUpForm} />
       </RightSide>
     </Navbar>
   );

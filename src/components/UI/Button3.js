@@ -8,8 +8,7 @@ const Button = (props) => {
 export default Button;
 
 const Btn = styled.button`
-  min-width: 10rem;
-  height: 4.5rem;
+  height: 4rem;
   background-color: transparent;
   font-weight: bold;
   position: relative;
