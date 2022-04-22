@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SignIn from "../signin/SignIn";
 import SignUp from "../signup/SignUp";
 import Todo from "../Todo/Todo";
+import Modal from "./Modal";
 import NavBar from "./NavBar";
 
 const Mainpage = () => {
@@ -32,6 +33,7 @@ const Mainpage = () => {
       {isShowSignUpForm && <SignUp onHideSignUpForm={hideSignUpFormHandler} />}
       {isShowLoginForm && <SignIn onHideLoginForm={hideLogInFormHandler} />}
       <Todo />
+      <Modal />
     </Main>
   );
 };

@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import YBtn from "../UI/YellowButton";
 import RBtn from "../UI/RedButton";
 
 const TodoItem = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const changeCheckHandler = () => {
+    setIsChecked(!isChecked);
+  };
+
   return (
     <Item>
-      <TickButton />
+      <TickButton
+        className={isChecked && "valid"}
+        onClick={changeCheckHandler}
+      />
       <Content></Content>
       <YBtn label="EDIT"></YBtn>
       <RBtn label="DEL"></RBtn>
@@ -41,6 +50,14 @@ const TickButton = styled.div`
   top: 0;
   left: 3rem;
   cursor: pointer;
+
+  &.valid::after {
+    content: "v";
+    font-weight: bold;
+    color: red;
+    transform: translate(8px, 2px);
+    position: absolute;
+  }
 
   &:hover {
     &::after {

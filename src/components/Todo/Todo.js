@@ -12,12 +12,6 @@ const Todo = () => {
         <TodoItem />
         <TodoItem />
         <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
       </TodoList>
     </TodoForm>
   );
