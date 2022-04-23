@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import YBtn from "../UI/YellowButton";
 import RBtn from "../UI/RedButton";
+import EditTodoForm from "./EditTodoForm";
 
-const TodoItem = () => {
-  const [isChecked, setIsChecked] = useState(false);
+const TodoItem = (props) => {
+  const [isChecked, setIsChecked] = useState(props.status);
 
   const changeCheckHandler = () => {
     setIsChecked(!isChecked);
+  };
+
+  const [isShowEditTodoForm, setIsShowEditTodoForm] = useState(false);
+  const showEditTodoFormHandler = () => {
+    setIsShowEditTodoForm(true);
+  };
+  const hideEditTodoFormHandler = () => {
+    setIsShowEditTodoForm(false);
   };
 
   return (
@@ -16,9 +25,15 @@ const TodoItem = () => {
         className={isChecked && "valid"}
         onClick={changeCheckHandler}
       />
-      <Content></Content>
-      <YBtn label="EDIT"></YBtn>
+      <Content>{props.title}</Content>
+      <YBtn label="EDIT" onClick={showEditTodoFormHandler}></YBtn>
       <RBtn label="DEL"></RBtn>
+      {isShowEditTodoForm && (
+        <EditTodoForm
+          title={props.title}
+          onHideEditTodoForm={hideEditTodoFormHandler}
+        />
+      )}
     </Item>
   );
 };

@@ -3,12 +3,12 @@ import styled from "styled-components";
 import SignIn from "../signin/SignIn";
 import SignUp from "../signup/SignUp";
 import Todo from "../Todo/Todo";
-import Modal from "./Modal";
 import NavBar from "./NavBar";
 
 const Mainpage = () => {
   const [isShowLoginForm, setIsShowLogInForm] = useState(false);
   const [isShowSignUpForm, setIsShowSignUpForm] = useState(false);
+
   const showLogInFormHandler = () => {
     setIsShowSignUpForm(false);
     setIsShowLogInForm(true);
@@ -24,6 +24,34 @@ const Mainpage = () => {
   const hideSignUpFormHandler = () => {
     setIsShowSignUpForm(false);
   };
+
+  const DUMMY_DATA = [
+    {
+      id: "1",
+      title: "Learn React",
+      des: "Learn useState",
+      status: true,
+    },
+    {
+      id: "2",
+      title: "Learn React 2",
+      des: "Learn useState",
+      status: false,
+    },
+    {
+      id: "3",
+      title: "Learn React 3",
+      des: "Learn useState",
+      status: false,
+    },
+    {
+      id: "4",
+      title: "Learn React 4",
+      des: "Learn useState",
+      status: false,
+    },
+  ];
+
   return (
     <Main>
       <NavBar
@@ -32,8 +60,7 @@ const Mainpage = () => {
       />
       {isShowSignUpForm && <SignUp onHideSignUpForm={hideSignUpFormHandler} />}
       {isShowLoginForm && <SignIn onHideLoginForm={hideLogInFormHandler} />}
-      <Todo />
-      <Modal />
+      <Todo data={DUMMY_DATA} />
     </Main>
   );
 };

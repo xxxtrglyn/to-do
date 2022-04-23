@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Button2 = (props) => {
-  return <Btn>{props.label}</Btn>;
+  return <Btn onClick={props.onClick}>{props.label}</Btn>;
 };
 
 export default Button2;

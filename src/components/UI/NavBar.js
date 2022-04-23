@@ -5,7 +5,7 @@ import Button from "./Button";
 const NavBar = (props) => {
   return (
     <Navbar>
-      <h2>TODO-APP</h2>
+      <Title>TODO-APP</Title>
       <RightSide>
         <Button label="LOGIN" onClick={props.onShowLogInForm} />
         <Button label="SIGN UP" onClick={props.onShowSignUpForm} />
@@ -15,6 +15,11 @@ const NavBar = (props) => {
 };
 
 export default NavBar;
+
+const Title = styled.h2`
+  color: white;
+  margin-left: 2rem;
+`;
 
 const Navbar = styled.div`
   width: 100%;

@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Button2 from "../UI/Button2";
 import TodoItem from "./TodoItem";
+import AddTodoForm from "./AddTodoForm";
 
-const Todo = () => {
+const Todo = (props) => {
+  const [isShowAddTodoForm, setIsShowAddTodoForm] = useState(false);
+  const showAddTodoFormHandler = () => {
+    setIsShowAddTodoForm(true);
+  };
+  const hideAddTodoFormHandler = () => {
+    setIsShowAddTodoForm(false);
+  };
+
   return (
     <TodoForm>
       <XButton>X</XButton>
       <Title>TODO-LIST</Title>
       <TodoList>
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
+        {props.data.map((item) => (
+          <TodoItem key={item.id} title={item.title} status={item.status} />
+        ))}
       </TodoList>
+      <Wrapper>
+        <Button2 label="ADD TODO" onClick={showAddTodoFormHandler} />
+      </Wrapper>
+      {isShowAddTodoForm && (
+        <AddTodoForm onHideAddTodoForm={hideAddTodoFormHandler} />
+      )}
     </TodoForm>
   );
 };
@@ -77,4 +92,9 @@ const TodoList = styled.div`
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  text-align: center;
 `;
