@@ -8,7 +8,7 @@ const Mainpage = () => {
 
   return (
     <Main>
-      {authCtx.isLoggedIn && <Arrow to="/list">ARROW</Arrow>}
+      {authCtx.isLoggedIn && <Arrow to="/list">Your Todo</Arrow>}
       {!authCtx.isLoggedIn && <WelcomeText>THIS IS TODO APP</WelcomeText>}
     </Main>
   );
