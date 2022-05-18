@@ -38,7 +38,7 @@ const Ip = styled.input`
   width: 100%;
   border: none;
   outline: none;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   border-bottom: 2px solid white;
   background-color: transparent;
   color: white;

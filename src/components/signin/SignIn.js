@@ -1,7 +1,9 @@
-import React, { useReducer, useState, useEffect } from "react";
+import React, { useReducer, useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Input from "../UI/Input";
 import Button from "../UI/Button2";
+import AuthContext from "../../store/auth-context";
+import { useNavigate } from "react-router-dom";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -24,6 +26,9 @@ const passwordReducer = (state, action) => {
 };
 
 const SignIn = (props) => {
+  const authCtx = useContext(AuthContext);
+  let navigator = useNavigate();
+
   const [formIsValid, setFormIsValid] = useState(false);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
@@ -46,7 +51,6 @@ const SignIn = (props) => {
     }, 500);
 
     return () => {
-      console.log("CLEANUP");
       clearTimeout(identifier);
     };
   }, [emailIsValid, passwordIsValid]);
@@ -69,12 +73,12 @@ const SignIn = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("Sign Up sucessfully");
+    authCtx.onLogin(emailState.value, passwordState.value);
+    navigator("/");
   };
 
   return (
     <FormSignUp onSubmit={submitHandler}>
-      <XButton onClick={props.onHideLoginForm}>X</XButton>
       <Title>LOGIN</Title>
       <InputContainer>
         <Input
@@ -102,24 +106,6 @@ const SignIn = (props) => {
 };
 
 export default SignIn;
-
-const XButton = styled.div`
-  color: white;
-  font-size: 2rem;
-  width: 3rem;
-  height: 3rem;
-  border: 2px solid white;
-  text-align: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    border: 2px solid red;
-    color: red;
-  }
-`;
 
 const FormSignUp = styled.form`
   width: 70rem;

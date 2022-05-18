@@ -2,6 +2,8 @@ import React, { useReducer, useState, useEffect } from "react";
 import styled from "styled-components";
 import Input from "../UI/Input";
 import Button from "../UI/Button2";
+import Toaster from "../UI/Toaster";
+import { useNavigate } from "react-router-dom";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -41,24 +43,26 @@ const passwordReducer = (state, action) => {
 
 const SignUp = (props) => {
   const repasswordReducer = (state, action) => {
+    const minAge = 12;
+    const maxAge = 99;
     if (action.type === "USER_INPUT") {
       return {
         value: action.val,
-        isValid:
-          action.val.trim().length > 6 && passwordState.value === action.val,
+        isValid: action.val > minAge && action.val < maxAge,
       };
     }
     if (action.type === "INPUT_BLUR") {
       return {
         value: state.value,
-        isValid:
-          state.value.trim().length > 6 && passwordState.value === state.value,
+        isValid: state.value > minAge && state.value < maxAge,
       };
     }
     return { value: "", isValid: false };
   };
 
   const [formIsValid, setFormIsValid] = useState(false);
+
+  const [isShowNoti, setIsShowNoti] = useState(false);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value: "",
@@ -126,25 +130,43 @@ const SignUp = (props) => {
     dispatchRepassword({ type: "INPUT_BLUR" });
   };
 
+  let navigator = useNavigate();
+  const moveToLoginPageHandler = () => {
+    const path = "/login";
+    navigator(path);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("Sign Up sucessfully");
+    const user = {
+      name: nameState.value,
+      age: repasswordState.value,
+      email: emailState.value,
+      password: passwordState.value,
+    };
+
+    try {
+      fetch("https://khoa-task-manager1.herokuapp.com/users", {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        if (res.ok) {
+          setIsShowNoti(true);
+          setTimeout(moveToLoginPageHandler, 3000);
+        }
+      });
+    } catch {
+      console.log("error ocurrs");
+    }
   };
 
   return (
     <FormSignUp onSubmit={submitHandler}>
-      <XButton onClick={props.onHideSignUpForm}>X</XButton>
       <Title>SIGN UP</Title>
       <InputContainer>
-        <Input
-          id="name"
-          label="first & lastname"
-          type="text"
-          value={nameState.value}
-          onChange={nameChangeHandler}
-          onBlur={validateNameHandler}
-          isValid={nameState.isValid}
-        />
         <Input
           id="email"
           label="email"
@@ -155,6 +177,24 @@ const SignUp = (props) => {
           isValid={emailState.isValid}
         />
         <Input
+          id="name"
+          label="first & lastname"
+          type="text"
+          value={nameState.value}
+          onChange={nameChangeHandler}
+          onBlur={validateNameHandler}
+          isValid={nameState.isValid}
+        />
+        <Input
+          id="age"
+          label="age"
+          type="number"
+          value={repasswordState.value}
+          onChange={repasswordChangeHandler}
+          onBlur={validateRepasswordHandler}
+          isValid={repasswordState.isValid}
+        />
+        <Input
           id="password"
           label="password"
           type="password"
@@ -163,17 +203,9 @@ const SignUp = (props) => {
           onBlur={validatePasswordHandler}
           isValid={passwordState.isValid}
         />
-        <Input
-          id="confirmpsk"
-          label="confirm password"
-          type="password"
-          value={repasswordState.value}
-          onChange={repasswordChangeHandler}
-          onBlur={validateRepasswordHandler}
-          isValid={repasswordState.isValid}
-        />
       </InputContainer>
       <Button label="SIGN UP" />
+      {isShowNoti && <Toaster>Succesfully</Toaster>}
     </FormSignUp>
   );
 };
@@ -204,22 +236,4 @@ const InputContainer = styled.div`
   width: 100%;
   flex-wrap: wrap;
   margin-bottom: 5rem;
-`;
-
-const XButton = styled.div`
-  color: white;
-  font-size: 2rem;
-  width: 3rem;
-  height: 3rem;
-  border: 2px solid white;
-  text-align: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    border: 2px solid red;
-    color: red;
-  }
 `;
